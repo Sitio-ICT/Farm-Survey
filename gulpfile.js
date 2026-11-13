@@ -42,9 +42,16 @@ function browserSyncReload(done) {
   done();
 }
 
-// Clean vendor
+// Clean the frontend libraries in vendor (Composer packages live there too, so never delete the whole folder)
 function clean() {
-  return del(["./vendor/"]);
+  return del([
+    "./vendor/bootstrap/",
+    "./vendor/chart.js/",
+    "./vendor/datatables/",
+    "./vendor/fontawesome-free/",
+    "./vendor/jquery/",
+    "./vendor/jquery-easing/"
+  ]);
 }
 
 // Bring third party dependencies from node_modules into vendor directory

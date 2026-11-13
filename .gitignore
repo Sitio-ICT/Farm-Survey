@@ -1,1 +1,13 @@
-node_modules
+# Dependencies: restore with `composer install`, `npm ci` and `npm run vendor`
+vendor/
+node_modules/
+
+# Local secrets (copy functions/config.example.php)
+functions/config.php
+
+# User-uploaded photos are runtime data, never commit them
+uploads/*
+!uploads/.gitkeep
+
+# Generated knowledge graph
+graphify-out/

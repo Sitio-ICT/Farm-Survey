@@ -1,5 +1,7 @@
 <?php
 include("../../connect.php");
+require_once __DIR__ . '/../../auth.php';
+require_login(true);
 
 $farmId = $_POST['farmId'];
 if (isset($_POST['farmId'])) {

@@ -48,10 +48,10 @@ $findRights = selectOne('designation', ['id' => $designation]);
     <!-- feedback to customer using sweet alert -->
     <?php
     $exp_error = "";
-    $message = $_SESSION['feedback'];
+    $message = isset($_SESSION['feedback']) ? $_SESSION['feedback'] : "";
     if ($message != "") {
     ?>
-        <input type="text" value="<?php echo $message ?>" id="feedback" hidden>
+        <input type="text" value="<?php echo htmlspecialchars($message, ENT_QUOTES) ?>" id="feedback" hidden>
     <?php
     }
     // feedback messages 0 for success and 1 for errors
@@ -60,7 +60,7 @@ $findRights = selectOne('designation', ['id' => $designation]);
         $key = $_GET["message0"];
         $tt = 0;
 
-        if ($tt !== $_SESSION["lack_of_intfund_$key"]) {
+        if ($tt !== ($_SESSION["lack_of_intfund_$key"] ?? null)) {
             echo '<script type="text/javascript">
           $(document).ready(function(){
             let feedback =  document.getElementById("feedback").value;
@@ -79,7 +79,7 @@ $findRights = selectOne('designation', ['id' => $designation]);
     } else if (isset($_GET["message1"])) {
         $key = $_GET["message1"];
         $tt = 0;
-        if ($tt !== $_SESSION["lack_of_intfund_$key"]) {
+        if ($tt !== ($_SESSION["lack_of_intfund_$key"] ?? null)) {
             echo '<script type="text/javascript">
           $(document).ready(function(){
             let feedback =  document.getElementById("feedback").value;

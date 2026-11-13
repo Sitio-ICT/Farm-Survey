@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../../auth.php';
+require_login(true);
 
 if (isset($_POST['principal']) && isset($_POST['total']) && isset($_POST['interest'])) {
     $principal = floatval(preg_replace('/[^\d.]/', '', $_POST['principal']));

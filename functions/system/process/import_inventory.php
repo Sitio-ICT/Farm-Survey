@@ -2,6 +2,8 @@
 <?php
 include('../../connect.php');
 session_start();
+require_once __DIR__ . '/../../auth.php';
+require_right('view_report');
 /** Include PHPExcel_IOFactory */
 include('../../../vendor/autoload.php');
 

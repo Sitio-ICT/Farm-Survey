@@ -1,0 +1,7 @@
+# Apache under CGI/FastCGI drops the Authorization header unless it is passed through.
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# Shared include, not an endpoint.
+<Files "_bootstrap.php">
+    Require all denied
+</Files>

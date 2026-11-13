@@ -5,6 +5,11 @@ if (!$_SESSION["loggedin"] == True) {
     header("location: login.php");
     exit;
 }
+// Users still on a temporary password can only reach the change-password page
+if (!empty($_SESSION["must_change_password"]) && basename($_SERVER["PHP_SELF"]) !== "profile.php") {
+    header("location: profile.php?force=1");
+    exit;
+}
 include("functions/connect.php");
 
 // include("ajaxcall.php");

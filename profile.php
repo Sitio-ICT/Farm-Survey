@@ -8,7 +8,13 @@ include('header.php');
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?php echo $_SESSION['fullname'] ?></h1>
+    <h1 class="h3 mb-4 text-gray-800"><?php echo htmlspecialchars($_SESSION['fullname']) ?></h1>
+
+    <?php if (!empty($_SESSION['must_change_password'])) { ?>
+        <div class="alert alert-warning">
+            You are using a temporary password. Enter it as your old password below and choose a new one to continue.
+        </div>
+    <?php } ?>
 
     <div class="row">
 

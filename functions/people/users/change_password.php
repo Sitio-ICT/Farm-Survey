@@ -13,7 +13,7 @@ if (isset($_POST['oldpassword']) && isset($_POST['newpassword'])) {
     $oldPasskey = $findOldPassword['passkey'];
 
     if (password_verify($oldPassword, $oldPasskey)) {
-        $changePassword = update('users', $userID, 'id', ['passkey' => $passkey]);
+        $changePassword = update('users', $userID, 'id', ['passkey' => $passkey, 'must_change_password' => 0]);
         if (!$changePassword) {
             $error = "Error: \n" . mysqli_error($connection); //checking for errors
             $_SESSION["feedback"] = "Sorry something went wrong could not change password! - $error";
@@ -21,9 +21,11 @@ if (isset($_POST['oldpassword']) && isset($_POST['newpassword'])) {
             echo header("Location: ../../../profile.php?message1=$randms");
             exit();
         } else {
-            $_SESSION["feedback"] = "Password Successfuly changed";
+            $wasForced = !empty($_SESSION["must_change_password"]);
+            unset($_SESSION["must_change_password"]);
+            $_SESSION["feedback"] = "Password successfully changed";
             $_SESSION["Lack_of_intfund_$randms"] = "10";
-            echo header("Location: ../../../profile.php?message0=$randms");
+            echo header("Location: ../../../" . ($wasForced ? "index.php" : "profile.php") . "?message0=$randms");
             exit();
         }
     } else {

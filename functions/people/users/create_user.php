@@ -1,5 +1,7 @@
 <?php
 include("../../connect.php");
+require_once __DIR__ . '/../../mail.php';
+require_once __DIR__ . '/../../password_reset.php';
 session_start();
 $digits = 7;
 $randms = str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
@@ -29,8 +31,9 @@ if(isset($_POST['email']) && isset($_POST['firstname'])){
     }
     $designation = $_POST['designation'];
 
-    $password = "password25";
-    $passkey = password_hash($password, PASSWORD_DEFAULT);
+    // Random one-time password; the user must replace it on first login.
+    $tempPassword = bin2hex(random_bytes(6));
+    $passkey = password_hash($tempPassword, PASSWORD_DEFAULT);
 
     $userData = [
         'firstname' => $firstname,
@@ -40,7 +43,8 @@ if(isset($_POST['email']) && isset($_POST['firstname'])){
         'email' => $email,
         'phone'=> $phone,
         // 'status' => "Activated",
-        'designation_id' => $designation
+        'designation_id' => $designation,
+        'must_change_password' => 1
     ];
     $createUser =  insert('users', $userData);
     if (!$createUser) {
@@ -50,7 +54,20 @@ if(isset($_POST['email']) && isset($_POST['firstname'])){
         echo header("Location: ../../../users.php?message1=$randms");
         exit();
     } else {
-        $_SESSION["feedback"] = "User Successfuly created - Default Password is. - password25";
+        // Email a 48-hour link so the user can set their own password directly.
+        $token = createResetToken($createUser, 48);
+        $name = htmlspecialchars($firstname);
+        $link = resetLink($token);
+        $sent = sendMail(
+            $email,
+            "Your Farm Survey account",
+            "<p>Hello $name,</p><p>An account has been created for you on Farm Survey.</p>"
+                . "<p><a href=\"$link\">Set your password</a> (this link expires in 48 hours).</p>"
+                . "<p>If you were given a temporary password instead, you will be asked to change it when you first log in.</p>"
+        );
+        $_SESSION["feedback"] = "User successfully created. Temporary password (shown once): $tempPassword. "
+            . ($sent ? "A set-password link was emailed to $email." : "The invite email could not be sent, so share the temporary password securely.")
+            . " The user must change it on first login.";
         $_SESSION["Lack_of_intfund_$randms"] = "10";
         echo header("Location: ../../../users.php?message0=$randms");
         exit();

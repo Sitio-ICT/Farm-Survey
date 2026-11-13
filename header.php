@@ -208,7 +208,7 @@ $findRights = selectOne('designation', ['id' => $designation]);
                             <a class="collapse-item" href="farmers_report.php">Farmers</a>
                             <a class="collapse-item" href="farm_report.php">Farms</a>
                             <a class="collapse-item" href="warehouse_report.php">Warehouse</a>
-                            <a class="collapse-item" href="Survey_report.php">Survey</a>
+                            <a class="collapse-item" href="survey_report.php">Survey</a>
                         <?php
                         }
                         ?>

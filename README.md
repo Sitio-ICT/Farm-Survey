@@ -79,7 +79,7 @@ Requirements: PHP 8 with mysqli (XAMPP works), MySQL or MariaDB, Composer and No
    mysql -u root farm_survey < locals.sql
    mysql -u root --force farm_survey < functions/alter.sql
    ```
-   `functions/alter.sql` is the historical change log, including the original form-import seed rows. Some of those rows fail on a fresh database, so it is run with `--force`. It ends with `sql/2026_11_password_reset.sql`. For an existing database, run only the new files in `sql/`.
+   `functions/alter.sql` is the historical change log, including the original form-import seed rows. Some of those rows fail on a fresh database, so it is run with `--force`. It ends with the migrations in `sql/`. For an existing database, run only the new files in `sql/`.
 3. Install dependencies. `vendor/` is not committed.
    ```sh
    composer install   # PhpSpreadsheet, PHPMailer
@@ -89,7 +89,11 @@ Requirements: PHP 8 with mysqli (XAMPP works), MySQL or MariaDB, Composer and No
 4. Configure:
    - Database credentials in `functions/db.php`.
    - Copy `functions/config.example.php` to `functions/config.php` and set `app_url` and your SMTP details. `config.php` is git-ignored. Without SMTP the app still works: the temporary password is shown to the admin when a user is created.
-5. Open `http://localhost/Farm-Survey/login.php`.
+5. Create the first administrator. There is no public sign-up; after this, admins add users from the Users page.
+   ```sh
+   php scripts/create_admin.php admin@example.com Ada Okafor   # prompts for the password
+   ```
+6. Open `http://localhost/Farm-Survey/login.php`.
 
 ## REST API
 
@@ -147,4 +151,5 @@ The user is always taken from the token. Any `userid` in the request is ignored.
 - There is no shared default password. New accounts get a random temporary password and are forced to change it on first login.
 - Reset links are single-use, expire (1 hour for resets, 48 hours for invites) and are stored only as SHA-256 hashes. The forgot-password form responds the same way whether or not an email exists.
 - SMTP credentials live in a git-ignored config file, and uploaded farm photos are runtime data that is never committed.
+- Every form handler in `functions/` checks the session through `functions/auth.php`, and privileged actions also check the designation's rights. Pages and handlers enforce the same rules. Session cookies are `HttpOnly` and `SameSite=Lax`.
 - API access uses random Bearer tokens that expire and can be revoked. Only their SHA-256 hashes are stored, and every endpoint checks the caller's role.

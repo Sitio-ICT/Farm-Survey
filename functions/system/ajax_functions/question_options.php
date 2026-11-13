@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../../auth.php';
+require_login(true);
 
 if (isset($_POST['type'])) {
     if ($_POST['type'] == "3") {

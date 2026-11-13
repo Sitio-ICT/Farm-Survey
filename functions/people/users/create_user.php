@@ -3,6 +3,8 @@ include("../../connect.php");
 require_once __DIR__ . '/../../mail.php';
 require_once __DIR__ . '/../../password_reset.php';
 session_start();
+require_once __DIR__ . '/../../auth.php';
+require_right('users_management');
 $digits = 7;
 $randms = str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
 

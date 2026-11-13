@@ -44,7 +44,7 @@ if(isset($_POST['email']) && isset($_POST['firstname'])){
         echo header("Location: ../../../farmers.php?message1=$randms");
         exit();
     } else {
-        $_SESSION["feedback"] = "Farmer Successfuly created";
+        $_SESSION["feedback"] = "Farmer successfully created";
         $_SESSION["Lack_of_intfund_$randms"] = "10";
         echo header("Location: ../../../farmers.php?message0=$randms");
         exit();

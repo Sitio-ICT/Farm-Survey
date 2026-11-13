@@ -182,7 +182,7 @@ $findRights = selectOne('designation', ['id' => $designation]);
                         ?>
                             <a class="collapse-item" href="cluster_hectares_report.php">Cluster Farm Size in <br> Hectares (HA) Data</a>
                             <a class="collapse-item" href="input_inventory.php">Input Inventory Data</a>
-                            <a class="collapse-item" href="input_distrubition.php">Input Distribution Data</a>
+                            <a class="collapse-item" href="input_distribution.php">Input Distribution Data</a>
                             <a class="collapse-item" href="#">Incidence Reports</a>
                             <a class="collapse-item" href="#">Weekly reports</a>
                         <?php

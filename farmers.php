@@ -43,7 +43,7 @@ include('header.php');
                                 <option value="SINGLE">SINGLE</option>
                                 <option value="ENGAGED">ENGAGED</option>
                                 <option value="MARRIED">MARRIED</option>
-                                <option value="SEPERATED">SEPERATED</option>
+                                <option value="SEPERATED">SEPARATED</option>
                                 <option value="DIVORCED">DIVORCED</option>
                             </select>
                         </div>

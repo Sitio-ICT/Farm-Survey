@@ -32,7 +32,7 @@ if (isset($_POST)) {
                     echo header("Location: ../../client_view.php?view=$client_id&message1=$randms");
                     exit();
                 } else {
-                    $_SESSION["feedback"] = "Image Successfuly Uploaded";
+                    $_SESSION["feedback"] = "Image successfully uploaded";
                     $_SESSION["Lack_of_intfund_$randms"] = "10";
                     echo header("Location: ../../client_view.php?view=$client_id&message0=$randms");
                     exit();

@@ -43,7 +43,7 @@ if (isset($_POST['branch_name']) && isset($_POST['pc_name'])) {
         echo header("Location: ../../../bank_view.php?view=$bank&message1=$randms");
         exit();
     } else {
-        $_SESSION["feedback"] = "Branch Successfuly created";
+        $_SESSION["feedback"] = "Branch successfully created";
         $_SESSION["Lack_of_intfund_$randms"] = "10";
         echo header("Location: ../../../bank_view.php?view=$bank&message0=$randms");
         exit();

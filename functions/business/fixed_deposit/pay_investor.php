@@ -65,7 +65,7 @@ if (isset($_POST['principal']) && isset($_POST['total']) && isset($_POST['intere
                 echo header("Location: ../../../client_view.php?view=$clientId&message1=$randms");
                 exit();
             } else {
-                $_SESSION["feedback"] = "Loan Successfuly Payed";
+                $_SESSION["feedback"] = "Investor successfully paid";
                 $_SESSION["Lack_of_intfund_$randms"] = "10";
                 echo header("Location: ../../../client_view.php?view=$clientId&message0=$randms");
                 exit();

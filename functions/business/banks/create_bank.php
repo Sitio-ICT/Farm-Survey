@@ -55,7 +55,7 @@ if(isset($_POST['bank_name']) && isset($_POST['branch'])){
             echo header("Location: ../../../banks.php?message1=$randms");
             exit();
         }else{
-            $_SESSION["feedback"] = "Bank and Main Branch Successfuly created";
+            $_SESSION["feedback"] = "Bank and Main Branch successfully created";
             $_SESSION["Lack_of_intfund_$randms"] = "10";
             echo header("Location: ../../../banks.php?message0=$randms");
             exit();

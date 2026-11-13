@@ -15,7 +15,7 @@ if(isset($_GET['approve'])){
         echo header("Location: ../../../farmer_approval.php?message1=$randms");
         exit();
     } else {
-        $_SESSION["feedback"] = "Farmer Successfuly Approved";
+        $_SESSION["feedback"] = "Farmer successfully approved";
         $_SESSION["Lack_of_intfund_$randms"] = "10";
         echo header("Location: ../../../farmers.php?message0=$randms");
         exit();

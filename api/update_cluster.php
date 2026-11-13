@@ -29,7 +29,7 @@ if ($clusterId != "") {
         http_response_code(503);
 
         // tell the user
-        echo json_encode(array("message" => "Data update not sucessful or Update already done."));
+        echo json_encode(array("message" => "Data update not successful or Update already done."));
     }
 } else {
     // set response code - 400 bad request

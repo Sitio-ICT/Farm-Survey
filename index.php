@@ -80,7 +80,7 @@ include('header.php');
                             <div class="cluster no-gutters align-items-center">
                                 <div class="col-auto">
                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                        <a href="input_distrubition.php">
+                                        <a href="input_distribution.php">
                                             <?php
                                             $findSurveys = selectAll('input_distrubution');
                                             echo count($findSurveys);

@@ -24,7 +24,7 @@ if (isset($_POST['name']) && isset($_POST['description']) && isset($_POST['value
         echo header("Location: ../../../farm_items.php?message1=$randms");
         exit();
     } else {
-        $_SESSION["feedback"] = "Item Successfuly created";
+        $_SESSION["feedback"] = "Item successfully created";
         $_SESSION["Lack_of_intfund_$randms"] = "10";
         echo header("Location: ../../../farm_items.php?message0=$randms");
         exit();

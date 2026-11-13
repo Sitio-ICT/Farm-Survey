@@ -22,7 +22,7 @@ if (isset($_POST['title']) && isset($_POST['description'])) {
         echo header("Location: ../../../training.php?message1=$randms");
         exit();
     } else {
-        $_SESSION["feedback"] = "Investor Successfuly created";
+        $_SESSION["feedback"] = "Training successfully created";
         $_SESSION["Lack_of_intfund_$randms"] = "10";
         echo header("Location: ../../../training.php?message0=$randms");
         exit();

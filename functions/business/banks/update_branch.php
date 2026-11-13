@@ -44,7 +44,7 @@ if (isset($_POST['branch_name']) && isset($_POST['location'])) {
         echo header("Location: ../../../bank_view.php?view=$bankId&message1=$randms");
         exit();
     } else {
-        $_SESSION["feedback"] = "Branch Successfuly updated";
+        $_SESSION["feedback"] = "Branch successfully updated";
         $_SESSION["Lack_of_intfund_$randms"] = "10";
         echo header("Location: ../../../bank_view.php?view=$bankId&message0=$randms");
         exit();

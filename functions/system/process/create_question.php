@@ -48,7 +48,7 @@ if(isset($_POST['question']) && isset($_POST['type']) && isset($_POST['category'
         echo header("Location: ../../../questions.php?message1=$randms");
         exit();
     } else {
-        $_SESSION["feedback"] = "Investor Successfuly created";
+        $_SESSION["feedback"] = "Question successfully created";
         $_SESSION["Lack_of_intfund_$randms"] = "10";
         echo header("Location: ../../../questions.php?message0=$randms");
         exit();

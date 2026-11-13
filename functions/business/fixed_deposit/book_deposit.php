@@ -34,12 +34,12 @@ if (isset($_POST['transaction_id']) && isset($_POST['principal']) && isset($_POS
     $bookLoan = insert('investment', $loanData);
     if (!$bookLoan) {
         $error = "Error: \n" . mysqli_error($connection); //checking for errors
-        $_SESSION["feedback"] = "Sorry could not book Fixed Depsit! - $error";
+        $_SESSION["feedback"] = "Sorry could not book Fixed Deposit! - $error";
         $_SESSION["Lack_of_intfund_$randms"] = "10";
         echo header("Location: ../../../investor_view.php?view=$investor&message1=$randms");
         exit();
     } else {
-        $_SESSION["feedback"] = "Fixed Depsit Booked Successfully and Awaiting Approval";
+        $_SESSION["feedback"] = "Fixed Deposit Booked Successfully and Awaiting Approval";
         $_SESSION["Lack_of_intfund_$randms"] = "10";
         echo header("Location: ../../../investor_view.php?view=$investor&message0=$randms");
         exit();

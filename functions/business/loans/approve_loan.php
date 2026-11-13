@@ -47,7 +47,7 @@ if (isset($_GET['approve'])) {
             echo header("Location: ../../../loan_approval.php?message1=$randms");
             exit();
         } else {
-            $_SESSION["feedback"] = "Loan Successfuly Approved";
+            $_SESSION["feedback"] = "Loan successfully approved";
             $_SESSION["Lack_of_intfund_$randms"] = "10";
             echo header("Location: ../../../loan_approval.php?message0=$randms");
             exit();

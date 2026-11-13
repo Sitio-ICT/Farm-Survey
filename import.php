@@ -62,12 +62,12 @@ include('header.php');
             </div>
         </div>
 
-        <!-- input distrubition -->
+        <!-- input distribution -->
         <div class="col-lg-6">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <div style="float:left">
-                        <h6 class="m-0 font-weight-bold text-primary">Import Distrubition</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Import Distribution</h6>
                     </div>
                     <div style="float:right">
                         <a href="assets/MAAN Inputs distribution Form.xlsx" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Download Template</a>
@@ -76,7 +76,7 @@ include('header.php');
                 <div class="card-body">
                     <?php //echo $_SESSION['feedback'] 
                     ?>
-                    <form action="functions/system/process/import_distrubition.php" method="post" enctype="multipart/form-data">
+                    <form action="functions/system/process/import_distribution.php" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <input type="file" name="file" id="file" class="form-control">
                         </div>

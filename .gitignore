@@ -11,3 +11,8 @@ uploads/*
 
 # Generated knowledge graph
 graphify-out/
+
+# Spreadsheets uploaded for import are runtime data
+functions/system/process/*.xlsx
+functions/system/process/*.xls
+functions/system/process/*.csv

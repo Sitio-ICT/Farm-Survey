@@ -20,6 +20,8 @@ ADD `latitude` VARCHAR(200) NOT NULL  AFTER `longitude`,  ADD `size` DECIMAL NOT
 
 
 -- temporal data structure and input
+-- The 2021 form responses that used to be seeded here (input_distrubution,
+-- input_inventory, input_cluster) were removed because they hold personal data.
 CREATE TABLE IF NOT EXISTS farm_survey.input_distrubution(
    Timestamp                                                                VARCHAR(28) NOT NULL
   ,Name_of_Needle_Technology_Staff                                          VARCHAR(25) NOT NULL

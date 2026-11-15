@@ -77,9 +77,9 @@ Requirements: PHP 8 with mysqli (XAMPP works), MySQL or MariaDB, Composer and No
    mysql -u root farm_survey < db_structure.sql
    mysql -u root farm_survey < states.sql
    mysql -u root farm_survey < locals.sql
-   mysql -u root --force farm_survey < functions/alter.sql
+   mysql -u root farm_survey < functions/alter.sql
    ```
-   `functions/alter.sql` is the historical change log, including the original form-import seed rows. Some of those rows fail on a fresh database, so it is run with `--force`. It ends with the migrations in `sql/`. For an existing database, run only the new files in `sql/`.
+   `functions/alter.sql` is the historical change log and ends with the migrations in `sql/`. For an existing database, run only the new files in `sql/`. The 2021 form responses it used to seed were removed because they contain personal data, so a fresh install starts empty.
 3. Install dependencies. `vendor/` is not committed.
    ```sh
    composer install   # PhpSpreadsheet, PHPMailer

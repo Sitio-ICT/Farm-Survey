@@ -16,3 +16,9 @@ graphify-out/
 functions/system/process/*.xlsx
 functions/system/process/*.xls
 functions/system/process/*.csv
+
+# Identity vault (encrypted selfies and ID images) and local logs: runtime data
+storage/vault/*
+!storage/vault/.gitkeep
+storage/logs/*
+!storage/logs/.gitkeep

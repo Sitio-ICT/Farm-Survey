@@ -157,3 +157,21 @@ The user is always taken from the token. Any `userid` in the request is ignored.
 - Every form handler in `functions/` checks the session through `functions/auth.php`, and privileged actions also check the designation's rights. Pages and handlers enforce the same rules. Session cookies are `HttpOnly` and `SameSite=Lax`.
 - Every state-changing request needs the session's CSRF token: forms send a hidden field, and jQuery AJAX sends an `X-CSRF-Token` header. The token rotates on login, and approvals are POST-only.
 - API access uses random Bearer tokens that expire and can be revoked. Only their SHA-256 hashes are stored, and every endpoint checks the caller's role.
+
+## Marketplace member registration (collectors and buyers)
+
+Public sign-up for data collectors and buyers lives in `members/`, separate from the staff app: members have their own `members` table and session cookie and can never reach staff pages. Registration has four steps: account details, phone code (SMS), email link, and identity verification with a valid government ID and a selfie.
+
+- **NIN** is checked instantly through an identity provider (`functions/members/identity/providers.php`): the registry name and date of birth must match what the member declared, and the selfie must match the ID photo. Partial matches go to staff review.
+- **Driver's licence, passport and voter's card** are uploaded as a photo and checked by staff in **ID Reviews** (sidebar, needs the approval right).
+- ID numbers are never stored: only a keyed hash (to stop one ID backing two accounts) and the last 4 digits. Selfies and ID photos are encrypted with libsodium in `storage/vault/` and deleted 90 days after a decision (`php scripts/purge_identity_files.php`, run daily from cron). Every time staff open one is logged in `vault_access_log`.
+
+Setup:
+
+1. `mysql -u root farm_survey < sql/2026_11_members.sql`
+2. In `functions/config.php`, copy the new `app_env`, `vault`, `sms` and `identity` sections from `functions/config.example.php` and generate the two vault keys with `php -r "echo base64_encode(random_bytes(32)), PHP_EOL;"`. Keep the keys out of the repo and backed up: losing `vault_key` makes stored images unreadable.
+3. Development needs no accounts: `identity.provider = sandbox` and `sms.driver = log` show codes and links on screen. The sandbox decides by the NIN's last digit (0 or 4–9 verified, 1 name mismatch → review, 2 not found, 3 selfie fails). In production set `app_env` to `production`, `identity.provider` to `dojah` with your App ID and secret key, and `sms.driver` to `termii` with an approved sender ID.
+4. Move `storage/` outside the web root on a server (set `vault.storage_path`). `storage/.htaccess` blocks direct access under Apache only.
+5. The selfie camera needs HTTPS (browsers block the camera on plain HTTP except on localhost); members can always upload a photo instead.
+
+Open `members/register.php` to start.

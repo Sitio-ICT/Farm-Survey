@@ -242,6 +242,15 @@ $findRights = selectOne('designation', ['id' => $designation]);
                 </div>
             </li>
 
+            <?php if ($findRights['approval'] == 1) { ?>
+                <!-- Marketplace members: identity checks that need a person -->
+                <li class="nav-item">
+                    <a class="nav-link" href="identity_reviews.php">
+                        <i class="fas fa-fw fa-id-card"></i>
+                        <span>ID Reviews</span></a>
+                </li>
+            <?php } ?>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->

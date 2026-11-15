@@ -430,9 +430,9 @@ $findFarmer = selectOne('farmer', ['id' => $farmerId]);
                                     </div>
                                     <div class="modal-body">
 
-                                        <input type="text" value="<?php echo $farmId ?>" name="farm" hidden>
+                                        <input type="hidden" value="<?php echo (int) $farmId ?>" name="farm">
                                         <div class="form-group">
-                                            <input type="file" class="form-control form-control-user" name="image" placeholder="" required>
+                                            <input type="file" class="form-control form-control-user" name="image" accept="image/jpeg,image/png,image/webp" required>
                                         </div>
 
                                     </div>
@@ -453,13 +453,12 @@ $findFarmer = selectOne('farmer', ['id' => $farmerId]);
                         foreach ($findImages as $image) {
                         ?>
                             <div class='col-md-4 mt-3'>
-                                <a class="fancybox" rel="group" href="uploads/<?php echo $image['title'] ?>">
-                                    <img class="img-fluid" alt="" src="uploads/<?php echo $image['title'] ?>" />
+                                <a class="fancybox" rel="group" href="image.php?id=<?php echo (int) $image['id'] ?>">
+                                    <img class="img-fluid" alt="Farm photo" src="image.php?id=<?php echo (int) $image['id'] ?>" />
                                 </a>
                                 <form action="functions/system/image_delete.php" method="POST">
 <?php echo csrf_field(); ?>
-                                    <input type="hidden" name="id" value="<?php echo $image['idimages'] ?>">
-                                    <input type="hidden" name="farm_id" value="<?php echo $image['customers_idcustomers']; ?>">
+                                    <input type="hidden" name="id" value="<?php echo (int) $image['id'] ?>">
                                     <button type="submit" id="delete-image" class="close-icon" onclick="return confirm('Are you sure you want to delete this image?')">
                                         <i class="material-icons">clear</i>
                                     </button>
@@ -480,6 +479,7 @@ $findFarmer = selectOne('farmer', ['id' => $farmerId]);
 <script type="text/javascript">
     $(document).ready(function() {
         $(".fancybox").fancybox({
+            type: "image", // image.php URLs have no file extension to detect from
             openEffect: "none",
             closeEffect: "none"
         });

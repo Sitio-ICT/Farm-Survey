@@ -187,3 +187,6 @@ CREATE TABLE IF NOT EXISTS `api_tokens` (
   UNIQUE INDEX `uq_api_tokens_hash` (`token_hash`),
   CONSTRAINT `fk_api_tokens_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
+
+-- Farm photos belong to a farm, not a warehouse, so warehouse_id must be optional.
+ALTER TABLE `images` MODIFY `warehouse_id` INT NULL;

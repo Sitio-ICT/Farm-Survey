@@ -5,6 +5,11 @@ return [
     // Public base URL of the app, used to build password reset links.
     'app_url' => 'http://localhost/Farm-Survey',
 
+    // Where farm photos are stored. Empty means the project's uploads/ folder, which
+    // relies on uploads/.htaccess to block direct access (Apache with AllowOverride).
+    // On a server, prefer a folder outside the web root, e.g. '/var/lib/farm-survey/uploads'.
+    'uploads_dir' => '',
+
     // MySQL / MariaDB connection. The values below are XAMPP's defaults; use a
     // dedicated user with a strong password on any shared or production server.
     'db' => [

@@ -2,59 +2,36 @@
 include("../connect.php");
 session_start();
 require_once __DIR__ . '/../auth.php';
-require_login();
-$digits = 7;
-$randms = str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
+require_once __DIR__ . '/../image_store.php';
+require_post();
+require_right('register_farmer');
 
-if (isset($_POST)) {
-    $client_id = $_POST['client'];
-
-    if (!empty($_FILES['image']['name'])) {
-
-        $name = $_FILES['image']['name'];
-        list($txt, $ext) = explode(".", $name);
-        $image_name = time() . "." . $ext;
-        $tmp = $_FILES['image']['tmp_name'];
-        $uploaded_at = date('Y-m-d H:i:s');
-
-        $valid_extensions = array("jpg", "jpeg", "png", "gif");
-
-        if (in_array(strtolower($ext), $valid_extensions)) {
-            if (move_uploaded_file($tmp, '../../uploads/' . $image_name)) {
-                $imageData = [
-                    'customers_idcustomers' => $client_id,
-                    'image_name' => $image_name
-                ];
-                $uploadImage = insert('images', $imageData);
-                // dd($uploadImage);
-                if (!$uploadImage) {
-                    $error = "Error: \n" . mysqli_error($connection); //checking for errors
-                    $_SESSION["feedback"] = "Sorry could not upload image! - $error";
-                    $_SESSION["Lack_of_intfund_$randms"] = "10";
-                    echo header("Location: ../../client_view.php?view=$client_id&message1=$randms");
-                    exit();
-                } else {
-                    $_SESSION["feedback"] = "Image successfully uploaded";
-                    $_SESSION["Lack_of_intfund_$randms"] = "10";
-                    echo header("Location: ../../client_view.php?view=$client_id&message0=$randms");
-                    exit();
-                }
-            } else {
-                $_SESSION["feedback"] = "Image Upload Failed";
-                $_SESSION["Lack_of_intfund_$randms"] = "10";
-                echo header("Location: ../../client_view.php?view=$client_id&message1=$randms");
-                exit();
-            }
-        } else {
-            $_SESSION["feedback"] = "Invalid File Format";
-            $_SESSION["Lack_of_intfund_$randms"] = "10";
-            echo header("Location: ../../client_view.php?view=$client_id&message1=$randms");
-            exit();
-        }
-    } else {
-        $_SESSION["feedback"] = "Please Select Image";
-        $_SESSION["Lack_of_intfund_$randms"] = "10";
-        echo header("Location: ../../client_view.php?view=$client_id&message1=$randms");
-        exit();
-    }
+function imageUploadFeedback($farmId, $message, $ok)
+{
+    $key = str_pad((string) random_int(0, 9999999), 7, '0', STR_PAD_LEFT);
+    $_SESSION["feedback"] = $message;
+    $_SESSION["Lack_of_intfund_$key"] = "10";
+    $location = $farmId > 0 ? "farm_view.php?view=$farmId&" : "index.php?";
+    header("Location: ../../{$location}message" . ($ok ? "0" : "1") . "=$key");
+    exit();
 }
+
+$farmId = isset($_POST['farm']) ? (int) $_POST['farm'] : 0;
+if ($farmId < 1 || !selectOne('farm', ['id' => $farmId])) {
+    imageUploadFeedback(0, "That farm was not found.", false);
+}
+
+[$fileName, $error] = storeUploadedImage($_FILES['image'] ?? null);
+if ($error !== null) {
+    imageUploadFeedback($farmId, $error, false);
+}
+
+$stmt = $connection->prepare("INSERT INTO images (title, farm_id) VALUES (?, ?)");
+$saved = $stmt && $stmt->bind_param('si', $fileName, $farmId) && $stmt->execute();
+if (!$saved) {
+    error_log("image_upload: insert failed: " . $connection->error);
+    @unlink(uploadsDir() . $fileName);
+    imageUploadFeedback($farmId, "Sorry, the image could not be saved.", false);
+}
+
+imageUploadFeedback($farmId, "Image successfully uploaded", true);

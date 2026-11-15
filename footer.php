@@ -42,6 +42,7 @@
 
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
+<?php echo csrf_ajax_setup(); /* this second jQuery replaces the global $, so set the CSRF header again */ ?>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->

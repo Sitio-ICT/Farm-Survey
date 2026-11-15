@@ -61,12 +61,16 @@ include('header.php');
                                         <th><?php echo $loan['amount'] + $loan['interest_amount'] ?></th>
                                         <td><?php echo $loan['repayment_date']; ?></td>
                                         <td>
-                                            <a href="functions/business/loans/approve_loan.php?approve=<?php echo $loan['idloan'] ?>" class="btn btn-info btn-icon-split">
+                                            <form method="POST" action="functions/business/loans/approve_loan.php" class="d-inline">
+                                                <?php echo csrf_field(); ?>
+                                                <input type="hidden" name="approve" value="<?php echo $loan['idloan'] ?>">
+                                                <button type="submit" class="btn btn-info btn-icon-split">
                                                 <span class="icon text-white-50">
                                                     <i class="fas fa-info-circle"></i>
                                                 </span>
                                                 <span class="text">Approve</span>
-                                            </a>
+                                            </button>
+                                            </form>
                                         </td>
 
                                     </tr>

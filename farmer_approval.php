@@ -59,12 +59,16 @@ include('header.php');
                                         <th><?php echo $client['marital_status'] ?></th>
                                         <th><?php echo $client['education_type'] . " - " . $client['education_grade'] ?></th>
                                         <td>
-                                            <a href="functions/people/customers/approve_client.php?approve=<?php echo $client['id'] ?>" class="btn btn-info btn-icon-split">
+                                            <form method="POST" action="functions/people/customers/approve_client.php" class="d-inline">
+                                                <?php echo csrf_field(); ?>
+                                                <input type="hidden" name="approve" value="<?php echo $client['id'] ?>">
+                                                <button type="submit" class="btn btn-info btn-icon-split">
                                                 <span class="icon text-white-50">
                                                     <i class="fas fa-info-circle"></i>
                                                 </span>
                                                 <span class="text">Approve</span>
-                                            </a>
+                                            </button>
+                                            </form>
                                         </td>
 
                                     </tr>

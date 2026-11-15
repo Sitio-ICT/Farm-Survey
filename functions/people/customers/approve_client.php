@@ -2,12 +2,13 @@
 include("../../connect.php");
 session_start();
 require_once __DIR__ . '/../../auth.php';
+require_post();
 require_right('approval');
 $digits = 7;
 $randms = str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
 
-if(isset($_GET['approve'])){
-    $clientId = $_GET['approve'];
+if(isset($_POST['approve'])){
+    $clientId = $_POST['approve'];
     
     $approveClient = update('farmer', $clientId, 'id', ['status' => 1]);
     if (!$approveClient) {

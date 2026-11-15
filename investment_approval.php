@@ -61,12 +61,16 @@ include('header.php');
                                         <th><?php echo number_format($investment['amount'] + $investment['interest_amount'], 2) ?></th>
                                         <td><?php echo $investment['repayment_date']; ?></td>
                                         <td>
-                                            <a href="functions/business/fixed_deposit/approve_deposit.php?approve=<?php echo $investment['idinvestment'] ?>" class="btn btn-info btn-icon-split">
+                                            <form method="POST" action="functions/business/fixed_deposit/approve_deposit.php" class="d-inline">
+                                                <?php echo csrf_field(); ?>
+                                                <input type="hidden" name="approve" value="<?php echo $investment['idinvestment'] ?>">
+                                                <button type="submit" class="btn btn-info btn-icon-split">
                                                 <span class="icon text-white-50">
                                                     <i class="fas fa-info-circle"></i>
                                                 </span>
                                                 <span class="text">Approve</span>
-                                            </a>
+                                            </button>
+                                            </form>
                                         </td>
 
                                     </tr>

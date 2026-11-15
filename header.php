@@ -11,6 +11,7 @@ if (!empty($_SESSION["must_change_password"]) && basename($_SERVER["PHP_SELF"]) 
     exit;
 }
 include("functions/connect.php");
+require_once __DIR__ . '/functions/csrf.php';
 
 // include("ajaxcall.php");
 $designation = $_SESSION['designation'];
@@ -29,6 +30,7 @@ $findRights = selectOne('designation', ['id' => $designation]);
     <meta name="author" content="">
 
     <title>Farm Survey</title>
+    <?php echo csrf_meta(); ?>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -42,6 +44,7 @@ $findRights = selectOne('designation', ['id' => $designation]);
 
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <?php echo csrf_ajax_setup(); ?>
     <!-- sweet alert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 

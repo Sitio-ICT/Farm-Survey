@@ -89,6 +89,7 @@ Requirements: PHP 8 with mysqli (XAMPP works), MySQL or MariaDB, Composer and No
 4. Configure: copy `functions/config.example.php` to `functions/config.php` and set:
    - `db`: database host, user, password and name. The app won't start without this file.
    - `app_url`: used in password-reset links.
+   - `uploads_dir`: optional. Where farm photos are stored; defaults to `uploads/`. Use a folder outside the web root on a server.
    - `smtp`: optional. Without it, the app still works and shows the temporary password to the admin when a user is created.
 
    `config.php` is git-ignored, so credentials never end up in the repository. On a real server, use a dedicated MySQL user, not `root`.
@@ -154,6 +155,7 @@ The user is always taken from the token. Any `userid` in the request is ignored.
 - There is no shared default password. New accounts get a random temporary password and are forced to change it on first login.
 - Reset links are single-use, expire (1 hour for resets, 48 hours for invites) and are stored only as SHA-256 hashes. The forgot-password form responds the same way whether or not an email exists.
 - SMTP credentials live in a git-ignored config file, and uploaded farm photos are runtime data that is never committed.
+- Farm photo uploads must decode as JPEG, PNG or WebP (checked by content, not extension). They are re-encoded on save, which strips EXIF data such as GPS position and device details, and stored under random names. `image.php` serves photos only to logged-in users. By default they are stored in `uploads/`, which `uploads/.htaccess` closes to direct access; that needs Apache with `AllowOverride` enabled (on nginx, add `location ^~ /uploads/ { deny all; }`). On a server, set `uploads_dir` in `config.php` to a folder outside the web root instead. To clean photos uploaded before this change, run `php scripts/strip_exif.php` once.
 - Every form handler in `functions/` checks the session through `functions/auth.php`, and privileged actions also check the designation's rights. Pages and handlers enforce the same rules. Session cookies are `HttpOnly` and `SameSite=Lax`.
 - Every state-changing request needs the session's CSRF token: forms send a hidden field, and jQuery AJAX sends an `X-CSRF-Token` header. The token rotates on login, and approvals are POST-only.
 - API access uses random Bearer tokens that expire and can be revoked. Only their SHA-256 hashes are stored, and every endpoint checks the caller's role.

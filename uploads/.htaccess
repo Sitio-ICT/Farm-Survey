@@ -1,0 +1,2 @@
+# Farm photos are served only through image.php, which checks the session.
+Require all denied

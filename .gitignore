@@ -8,6 +8,8 @@ functions/config.php
 # User-uploaded photos are runtime data, never commit them
 uploads/*
 !uploads/.gitkeep
+!uploads/.htaccess
+!uploads/index.html
 
 # Generated knowledge graph
 graphify-out/

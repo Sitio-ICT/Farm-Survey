@@ -1,11 +1,9 @@
-
 <?php
 include('../../connect.php');
 session_start();
-/** Include PHPExcel_IOFactory */
-include('../../../vendor/autoload.php');
-
-use PhpOffice\PhpSpreadsheet\IOFactory;
+require_once __DIR__ . '/../../auth.php';
+require_right('view_report');
+require_once __DIR__ . '/../../spreadsheet_import.php';
 
 $digit = 4;
 try {
@@ -14,30 +12,18 @@ try {
 }
 if (isset($_POST['submit'])) {
 
-    //  check for excel file submitted
-    if ($_FILES["file"]["name"] !== '') {
-        $allowed_extension = array('xls', 'csv', 'xlsx');
-        $file_array = explode(".", $_FILES["file"]["name"]);
-        $file_extension = end($file_array);
-
-        if (in_array($file_extension, $allowed_extension)) {
-            try {
-                $file_name = time() . '.' . $file_extension;
-                move_uploaded_file($_FILES['file']['tmp_name'], $file_name);
-                $file_type = IOFactory::identify($file_name);
-                $reader = IOFactory::createReader($file_type);
-                $spreadsheet = $reader->load($file_name);
-
-                unlink($file_name);
-
-                //            Data from excel Sheet
-                $data = $spreadsheet->getActiveSheet()->toArray();
-            } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
-            }
-
-            //            our data table for insertion
-            $ourDataTables = [];
+    //  read the uploaded spreadsheet (validated, read in place, values only)
+    if (isset($_FILES["file"])) {
+        list($data, $importError) = readUploadedSpreadsheet('file');
+        if ($importError !== null) {
+            $_SESSION["feedback"] = $importError;
+            $_SESSION["Lack_of_intfund_$randms"] = "10";
+            header("Location: ../../../import.php?message1=$randms");
+            exit();
         }
+
+        //            our data table for insertion
+        $ourDataTables = [];
 
         //            Join data with content from the excel sheet
         foreach ($data as $key => $row) {
@@ -109,7 +95,7 @@ if (isset($_POST['submit'])) {
                         'Ekiti_LGAs' => $data['Ekiti_LGAs'],
                         'Gombe_LGAs' => $data['Gombe_LGAs'],
                         'Imo_LGAs' => $data['Imo_LGAs'],
-                        'Ogun_LGAs' => $data['12'],
+                        'Ogun_LGAs' => $data['Ogun_LGAs'],
                         'Ondo_LGAs' => $data['Ondo_LGAs'],
                         'Oyo_LGAs' => $data['Oyo_LGAs'],
                         'Taraba_LGAs' => $data['Taraba_LGAs'],
@@ -137,7 +123,7 @@ if (isset($_POST['submit'])) {
                         'Please_upload_any_images_from_the_distribution' => $data['Please_upload_any_images_from_the_distribution']
                     ];
                 }
-                $insertDistribution = insert('input_distribution', $distrubittionData);
+                $insertDistribution = insert('input_distrubution', $distrubittionData);
                 if (!$insertDistribution) {
                     $error = "Error: \n" . mysqli_error($connection); //checking for errors
                     $_SESSION["feedback"] = "Sorry could Migrate Data! - $error";

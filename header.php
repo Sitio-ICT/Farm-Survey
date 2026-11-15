@@ -11,6 +11,7 @@ if (!empty($_SESSION["must_change_password"]) && basename($_SERVER["PHP_SELF"]) 
     exit;
 }
 include("functions/connect.php");
+require_once __DIR__ . '/functions/csrf.php';
 
 // include("ajaxcall.php");
 $designation = $_SESSION['designation'];
@@ -29,6 +30,7 @@ $findRights = selectOne('designation', ['id' => $designation]);
     <meta name="author" content="">
 
     <title>Farm Survey</title>
+    <?php echo csrf_meta(); ?>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -42,16 +44,17 @@ $findRights = selectOne('designation', ['id' => $designation]);
 
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <?php echo csrf_ajax_setup(); ?>
     <!-- sweet alert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- feedback to customer using sweet alert -->
     <?php
     $exp_error = "";
-    $message = $_SESSION['feedback'];
+    $message = isset($_SESSION['feedback']) ? $_SESSION['feedback'] : "";
     if ($message != "") {
     ?>
-        <input type="text" value="<?php echo $message ?>" id="feedback" hidden>
+        <input type="text" value="<?php echo htmlspecialchars($message, ENT_QUOTES) ?>" id="feedback" hidden>
     <?php
     }
     // feedback messages 0 for success and 1 for errors
@@ -60,7 +63,7 @@ $findRights = selectOne('designation', ['id' => $designation]);
         $key = $_GET["message0"];
         $tt = 0;
 
-        if ($tt !== $_SESSION["lack_of_intfund_$key"]) {
+        if ($tt !== ($_SESSION["lack_of_intfund_$key"] ?? null)) {
             echo '<script type="text/javascript">
           $(document).ready(function(){
             let feedback =  document.getElementById("feedback").value;
@@ -79,7 +82,7 @@ $findRights = selectOne('designation', ['id' => $designation]);
     } else if (isset($_GET["message1"])) {
         $key = $_GET["message1"];
         $tt = 0;
-        if ($tt !== $_SESSION["lack_of_intfund_$key"]) {
+        if ($tt !== ($_SESSION["lack_of_intfund_$key"] ?? null)) {
             echo '<script type="text/javascript">
           $(document).ready(function(){
             let feedback =  document.getElementById("feedback").value;

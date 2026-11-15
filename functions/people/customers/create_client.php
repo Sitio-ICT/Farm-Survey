@@ -1,6 +1,8 @@
 <?php
 include("../../connect.php");
 session_start();
+require_once __DIR__ . '/../../auth.php';
+require_right('register_farmer');
 $userId = $_SESSION['userid'];
 $digits = 7;
 $randms = str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);

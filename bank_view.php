@@ -62,6 +62,7 @@ $findMainBranch = selectOne('branches', ['banks_idbanks' => $bankId, 'main_branc
                     </div>
                     <!-- Modal -->
                     <form action="functions/business/banks/create_branch.php" method="post">
+<?php echo csrf_field(); ?>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -173,6 +174,7 @@ $findMainBranch = selectOne('branches', ['banks_idbanks' => $bankId, 'main_branc
                                         </td>
                                         <!-- Modal -->
                                         <form action="functions/business/banks/update_branch.php" method="post">
+<?php echo csrf_field(); ?>
                                             <div class="modal fade" id="exampleModal<?php echo $bank['idbranches'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">

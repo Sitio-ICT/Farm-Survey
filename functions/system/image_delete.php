@@ -1,23 +1,27 @@
 <?php
 include("../connect.php");
 session_start();
+require_once __DIR__ . '/../auth.php';
+require_login();
 $digits = 7;
 $randms = str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
 
 
 if (isset($_POST) && !empty($_POST['id']) && !empty($_POST['client_id'])) {
-    $image_id = $_POST['id'];
-    $client_id = $_POST['client_id'];
+    $image_id = (int) $_POST['id'];
+    $client_id = (int) $_POST['client_id'];
 
-    // Delete image file from server
-    $sql = "SELECT image_name FROM images WHERE idimages = {$image_id}";
-    $image_data = mysqli_query($connection, $sql);
-    $image = mysqli_fetch_array($image_data)["image"];
-    unlink('uploads/' . $image);
+    // Delete image file from server (basename() keeps the delete inside uploads/)
+    $image = selectOne('images', ['idimages' => $image_id]);
+    if ($image && $image['image_name'] !== '') {
+        $file = __DIR__ . '/../../uploads/' . basename($image['image_name']);
+        if (is_file($file)) {
+            unlink($file);
+        }
+    }
 
     // Delete image upload record from database
-    $sql = "DELETE FROM images WHERE idimages = {$image_id}";
-    $result = mysqli_query($connection, $sql);
+    $result = executeQuery("DELETE FROM images WHERE idimages = ?", [$image_id]);
 
 
     if (!$result) {

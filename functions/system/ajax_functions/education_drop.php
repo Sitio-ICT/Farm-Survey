@@ -1,5 +1,7 @@
 <?php
 include("../../connect.php");
+require_once __DIR__ . '/../../auth.php';
+require_login(true);
 
 $bank = $_POST['bank'];
 if (isset($_POST['bank'])) {

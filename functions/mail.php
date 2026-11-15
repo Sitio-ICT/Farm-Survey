@@ -3,19 +3,7 @@ use PHPMailer\PHPMailer\Exception as MailException;
 use PHPMailer\PHPMailer\PHPMailer;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-
-/**
- * Application config from functions/config.php, falling back to the example file.
- */
-function appConfig()
-{
-    static $config = null;
-    if ($config === null) {
-        $file = __DIR__ . '/config.php';
-        $config = file_exists($file) ? require $file : require __DIR__ . '/config.example.php';
-    }
-    return $config;
-}
+require_once __DIR__ . '/app_config.php';
 
 /**
  * Send an HTML email over SMTP. Returns true on success, false if mail is

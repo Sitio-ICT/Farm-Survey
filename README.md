@@ -86,9 +86,12 @@ Requirements: PHP 8 with mysqli (XAMPP works), MySQL or MariaDB, Composer and No
    npm ci             # if node-sass fails to build, use: npm ci --ignore-scripts
    npm run vendor     # copies jQuery, Bootstrap, Chart.js, DataTables and Font Awesome into vendor/
    ```
-4. Configure:
-   - Database credentials in `functions/db.php`.
-   - Copy `functions/config.example.php` to `functions/config.php` and set `app_url` and your SMTP details. `config.php` is git-ignored. Without SMTP the app still works: the temporary password is shown to the admin when a user is created.
+4. Configure: copy `functions/config.example.php` to `functions/config.php` and set:
+   - `db`: database host, user, password and name. The app won't start without this file.
+   - `app_url`: used in password-reset links.
+   - `smtp`: optional. Without it, the app still works and shows the temporary password to the admin when a user is created.
+
+   `config.php` is git-ignored, so credentials never end up in the repository. On a real server, use a dedicated MySQL user, not `root`.
 5. Create the first administrator. There is no public sign-up; after this, admins add users from the Users page.
    ```sh
    php scripts/create_admin.php admin@example.com Ada Okafor   # prompts for the password

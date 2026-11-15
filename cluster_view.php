@@ -59,6 +59,7 @@ $findCluster = selectOne('cluster', ['id' => $clusterId]);
                     </div>
                     <!-- Modal -->
                     <form action="functions/system/process/add_area.php" method="post" enctype="multipart/form-data" autocomplete="off">
+<?php echo csrf_field(); ?>
                         <div class="modal fade" id="bookLoan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">

@@ -27,6 +27,7 @@ include('header.php');
                     <?php //echo $_SESSION['feedback'] 
                     ?>
                     <form action="functions/system/process/import_cluster.php" method="post" enctype="multipart/form-data">
+<?php echo csrf_field(); ?>
                         <div class="form-group">
                             <input type="file" name="file" id="file" class="form-control">
                         </div>
@@ -52,6 +53,7 @@ include('header.php');
                     <?php //echo $_SESSION['feedback'] 
                     ?>
                     <form action="functions/system/process/import_inventory.php" method="post" enctype="multipart/form-data">
+<?php echo csrf_field(); ?>
                         <div class="form-group">
                             <input type="file" name="file" id="file" class="form-control">
                         </div>
@@ -77,6 +79,7 @@ include('header.php');
                     <?php //echo $_SESSION['feedback'] 
                     ?>
                     <form action="functions/system/process/import_distribution.php" method="post" enctype="multipart/form-data">
+<?php echo csrf_field(); ?>
                         <div class="form-group">
                             <input type="file" name="file" id="file" class="form-control">
                         </div>

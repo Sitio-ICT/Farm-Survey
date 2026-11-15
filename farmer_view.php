@@ -73,6 +73,7 @@ $findClient = selectOne('farmer', ['id' => $clientId]);
                     </div>
                     <!-- Modal -->
                     <form action="functions/business/loans/book_loan.php" method="post" enctype="multipart/form-data" autocomplete="off">
+<?php echo csrf_field(); ?>
                         <div class="modal fade" id="bookLoan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">

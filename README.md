@@ -155,4 +155,5 @@ The user is always taken from the token. Any `userid` in the request is ignored.
 - Reset links are single-use, expire (1 hour for resets, 48 hours for invites) and are stored only as SHA-256 hashes. The forgot-password form responds the same way whether or not an email exists.
 - SMTP credentials live in a git-ignored config file, and uploaded farm photos are runtime data that is never committed.
 - Every form handler in `functions/` checks the session through `functions/auth.php`, and privileged actions also check the designation's rights. Pages and handlers enforce the same rules. Session cookies are `HttpOnly` and `SameSite=Lax`.
+- Every state-changing request needs the session's CSRF token: forms send a hidden field, and jQuery AJAX sends an `X-CSRF-Token` header. The token rotates on login, and approvals are POST-only.
 - API access uses random Bearer tokens that expire and can be revoked. Only their SHA-256 hashes are stored, and every endpoint checks the caller's role.

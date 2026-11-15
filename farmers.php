@@ -19,6 +19,7 @@ include('header.php');
                 </div>
                 <div class="card-body">
                     <form class="user" autocomplete="off" method="POST" action="functions/people/customers/create_client.php">
+<?php echo csrf_field(); ?>
                         <!-- <div class="form-group">
                             <input type="text" class="form-control form-control-user" name="username" placeholder="username" required>
                         </div> -->

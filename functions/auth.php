@@ -4,6 +4,8 @@
 // include it, so each handler calls one of these first.
 // Requires functions/connect.php to be included already (for require_right).
 
+require_once __DIR__ . '/csrf.php';
+
 /**
  * Web root of the app (the part of the script path before /functions/), e.g. "/Farm-Survey".
  */
@@ -45,6 +47,23 @@ function require_login($ajax = false)
     $script = basename($_SERVER['SCRIPT_NAME']);
     if (!empty($_SESSION["must_change_password"]) && $script !== 'change_password.php') {
         auth_deny(403, $ajax, "profile.php?force=1");
+    }
+    // A state-changing request must prove it came from one of our own pages.
+    if (csrf_required() && !csrf_valid()) {
+        auth_deny(403, $ajax, "index.php", "Your session expired or the form was out of date. Please try again.");
+    }
+}
+
+/**
+ * For handlers that change state: refuse GET (and other methods) with 405, so a link
+ * or <img> on another site can't trigger them. The CSRF check then applies to the POST.
+ */
+function require_post()
+{
+    if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header('Allow: POST');
+        http_response_code(405);
+        exit('Method not allowed');
     }
 }
 

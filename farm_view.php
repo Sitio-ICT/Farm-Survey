@@ -61,7 +61,8 @@ $findFarmer = selectOne('farmer', ['id' => $farmerId]);
                         </a>
                     </div>
                     <!-- Modal -->
-                    <!-- <form action="functions/business/loans/book_loan.php" method="post" enctype="multipart/form-data" autocomplete="off"> -->
+                    <!-- <form action="functions/business/loans/book_loan.php" method="post" enctype="multipart/form-data" autocomplete="off">
+<?php echo csrf_field(); ?> -->
                     <div class="modal fade" id="bookLoan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -213,7 +214,8 @@ $findFarmer = selectOne('farmer', ['id' => $farmerId]);
                         </a>
                     </div>
                     <!-- Modal -->
-                    <!-- <form action="functions/business/loans/book_loan.php" method="post" enctype="multipart/form-data" autocomplete="off"> -->
+                    <!-- <form action="functions/business/loans/book_loan.php" method="post" enctype="multipart/form-data" autocomplete="off">
+<?php echo csrf_field(); ?> -->
                     <div class="modal fade" id="bookLoan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -416,6 +418,7 @@ $findFarmer = selectOne('farmer', ['id' => $farmerId]);
                     </div>
                     <!-- Modal -->
                     <form action="functions/system/image_upload.php" method="post" enctype="multipart/form-data">
+<?php echo csrf_field(); ?>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -454,6 +457,7 @@ $findFarmer = selectOne('farmer', ['id' => $farmerId]);
                                     <img class="img-fluid" alt="" src="uploads/<?php echo $image['title'] ?>" />
                                 </a>
                                 <form action="functions/system/image_delete.php" method="POST">
+<?php echo csrf_field(); ?>
                                     <input type="hidden" name="id" value="<?php echo $image['idimages'] ?>">
                                     <input type="hidden" name="farm_id" value="<?php echo $image['customers_idcustomers']; ?>">
                                     <button type="submit" id="delete-image" class="close-icon" onclick="return confirm('Are you sure you want to delete this image?')">

@@ -58,7 +58,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             session_start();
                             
                             // Store data in session variables
-                            session_regenerate_id();
+                            session_regenerate_id(true);
+                            unset($_SESSION["csrf_token"]); // fresh CSRF token for the new login
                             $fullname = $firstname. " " . $lastname;
                             $_SESSION["loggedin"] = true;
                             $_SESSION["userid"] = $id;

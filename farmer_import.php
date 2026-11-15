@@ -24,7 +24,8 @@ include('header.php');
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="" method="post"></form>
+                    <form action="" method="post">
+<?php echo csrf_field(); ?></form>
                 </div>
             </div>
         </div>
